@@ -4,11 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>AEUN Notes</title>
-    <meta name="description" content="A calm, offline-first productivity workspace for instant capture, notes, tasks, and focused knowledge organization." />
+    <meta name="description" content="AEUN Notes is a calm, offline-first notes and checklist app in English and Bangla. Fast, private, and works without internet." />
+    <meta name="application-name" content="AEUN Notes" />
     <meta property="og:title" content="AEUN Notes" />
-    <meta property="og:description" content="A calm, offline-first productivity workspace for instant capture, notes, tasks, and focused knowledge organization." />
+    <meta property="og:description" content="A calm, offline-first notes and checklist app in English and Bangla." />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:card" content="summary" />
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,17 +17,38 @@
     <meta name="apple-mobile-web-app-title" content="AEUN Notes" />
     <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
     <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+
+    <!-- Apply saved theme and language before the first paint (prevents a white flash in dark mode). -->
+    <script>
+      (function () {
+        try {
+          var root = document.documentElement;
+          var theme = localStorage.getItem('aeun_notes_theme_v1');
+          var dark =
+            theme === 'dark' ||
+            (theme !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) {
+            root.classList.add('dark');
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', '#0F1115');
+          }
+          var lang = localStorage.getItem('aeun_notes_language_v1');
+          if (lang === 'bn' || lang === 'en') root.lang = lang;
+        } catch (e) {}
+      })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="./assets/index-TkU3nARP.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BXV649vV.css">
+    <script type="module" crossorigin src="./assets/index-Ce_4nVD3.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Djc-DxTt.css">
   <link rel="manifest" href="./manifest.webmanifest"></head>
   <body class="bg-white text-[#111111] antialiased selection:bg-[#16A34A]/15 selection:text-[#111111] dark:bg-[#0F1115] dark:text-[#F3F4F6] dark:selection:bg-[#16A34A]/25 dark:selection:text-white">
     <div id="root"></div>
+    <noscript>AEUN Notes needs JavaScript to run. Please enable JavaScript and reload.</noscript>
   </body>
 </html>
-
