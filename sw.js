@@ -1,1 +1,45 @@
-if(!self.define){let e,s={};const n=(n,i)=>(n=new URL(n+".js",i).href,s[n]||new Promise(s=>{if("document"in self){const e=document.createElement("script");e.src=n,e.onload=s,document.head.appendChild(e)}else e=n,importScripts(n),s()}).then(()=>{let e=s[n];if(!e)throw new Error(`Module ${n} didn’t register its module`);return e}));self.define=(i,o)=>{const a=e||("document"in self?document.currentScript.src:"")||location.href;if(s[a])return;let c={};const r=e=>n(e,a),t={module:{uri:a},exports:c,require:r};s[a]=Promise.all(i.map(e=>t[e]||r(e))).then(e=>(o(...e),c))}}define(["./workbox-5a76e2bc"],function(e){"use strict";self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"pwa-maskable-512x512.png",revision:"902aa934b5ee67dce6a16bf2cfcb7cb4"},{url:"pwa-512x512.png",revision:"37f5fb19e15ab4cbec029ed5557ce7d2"},{url:"pwa-192x192.png",revision:"dc604c642aba993d2cecdb6bd0220d20"},{url:"index.html",revision:"477fb62a2ab6661ae40af7ef0a21eae9"},{url:"icon.svg",revision:"067639e19a0d276e9a33a02808b03af8"},{url:"apple-touch-icon.png",revision:"d62481c0109319359c814b4c450e0e39"},{url:"assets/workbox-window.prod.es5-Bd17z0YL.js",revision:null},{url:"assets/index-Djc-DxTt.css",revision:null},{url:"assets/index-Ce_4nVD3.js",revision:null},{url:"apple-touch-icon.png",revision:"d62481c0109319359c814b4c450e0e39"},{url:"icon.svg",revision:"067639e19a0d276e9a33a02808b03af8"},{url:"pwa-192x192.png",revision:"dc604c642aba993d2cecdb6bd0220d20"},{url:"pwa-512x512.png",revision:"37f5fb19e15ab4cbec029ed5557ce7d2"},{url:"pwa-maskable-512x512.png",revision:"902aa934b5ee67dce6a16bf2cfcb7cb4"},{url:"manifest.webmanifest",revision:"b7da40d3a18f130bba05acf1f9e00698"}],{}),e.cleanupOutdatedCaches(),e.registerRoute(new e.NavigationRoute(e.createHandlerBoundToURL("/index.html"))),e.registerRoute(/^https:\/\/fonts\.googleapis\.com\/.*/i,new e.StaleWhileRevalidate({cacheName:"google-fonts-styles",plugins:[new e.ExpirationPlugin({maxEntries:12,maxAgeSeconds:31536e3}),new e.CacheableResponsePlugin({statuses:[0,200]})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.gstatic\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-files",plugins:[new e.ExpirationPlugin({maxEntries:30,maxAgeSeconds:31536e3}),new e.CacheableResponsePlugin({statuses:[0,200]})]}),"GET")});
+'use strict';
+var CACHE = 'aeun-notes-shell-v4';
+var ASSETS = [
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './icon.svg',
+  './pwa-192x192.png',
+  './pwa-512x512.png',
+  './pwa-maskable-512x512.png',
+  './apple-touch-icon.png'
+];
+
+self.addEventListener('install', function (e) {
+  e.waitUntil(
+    caches.open(CACHE).then(function (c) { return c.addAll(ASSETS); }).then(function () { return self.skipWaiting(); })
+  );
+});
+
+self.addEventListener('activate', function (e) {
+  e.waitUntil(
+    caches.keys().then(function (keys) {
+      return Promise.all(keys.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); }));
+    }).then(function () { return self.clients.claim(); })
+  );
+});
+
+self.addEventListener('fetch', function (e) {
+  if (e.request.method !== 'GET') return;
+  e.respondWith(
+    caches.match(e.request, { ignoreSearch: true }).then(function (hit) {
+      if (hit) return hit;
+      return fetch(e.request).then(function (res) {
+        if (res && res.ok && new URL(e.request.url).origin === self.location.origin) {
+          var copy = res.clone();
+          caches.open(CACHE).then(function (c) { c.put(e.request, copy); });
+        }
+        return res;
+      }).catch(function () {
+        if (e.request.mode === 'navigate') return caches.match('./index.html');
+        return new Response('', { status: 504, statusText: 'Offline' });
+      });
+    })
+  );
+});
