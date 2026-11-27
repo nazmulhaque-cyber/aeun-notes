@@ -1,5 +1,5 @@
 'use strict';
-var CACHE = 'aeun-notes-shell-v4';
+var CACHE = 'aeun-notes-shell-v5';
 var ASSETS = [
   './',
   './index.html',

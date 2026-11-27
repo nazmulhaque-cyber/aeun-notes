@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#16A34A">
+<meta name="theme-color" content="#1D6FF2">
 <title>AEUN Notes</title>
 <meta name="description" content="A calm, offline-first notes and checklist app in English and Bangla.">
 <link rel="manifest" href="manifest.webmanifest">
@@ -13,13 +13,13 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#F6F7F6;--card:#FFFFFF;--head:#FFFFFF;--sheet:#FFFFFF;--text:#191B1E;--muted:#6B7280;
-  --border:#E3E6E3;--accent:#16A34A;--accent-soft:#E5F6EC;--danger:#DC2626;
+  --border:#E3E6E3;--accent:#1D6FF2;--accent-soft:#E5F6EC;--danger:#DC2626;
   --shadow:0 10px 30px rgba(15,17,21,.18);
   --c-yellow:#FFF3C4;--c-mint:#D8F3E2;--c-sky:#D9EBFF;--c-rose:#FFE1E8;--c-lav:#E8E2FF;
 }
 html[data-theme="dark"]{
   --bg:#101214;--card:#1B1E22;--head:#15171A;--sheet:#1E2126;--text:#ECEEF0;--muted:#9BA1A8;
-  --border:#2C3036;--accent:#22C55E;--accent-soft:#14301F;
+  --border:#2C3036;--accent:#5B93FF;--accent-soft:#14301F;
   --shadow:0 10px 30px rgba(0,0,0,.55);
   --c-yellow:#3A3421;--c-mint:#1E3329;--c-sky:#1E2E40;--c-rose:#3B252C;--c-lav:#2B2742;
 }
@@ -102,8 +102,17 @@ main.list .grid{grid-template-columns:1fr}
 .snack.show{transform:translate(-50%,0)}
 .snack button{color:#4ADE80;font-weight:700;font-size:14.5px;padding:2px 4px}
 </style>
+<style>
+@font-face{ font-family:'Bornomala'; src:url('https://nazmulhaque-cyber.github.io/aeun-tools/fonts/Bornomala-Regular.ttf') format('truetype'); font-weight:400; font-display:swap; unicode-range:U+0980-09FF,U+200C-200D; }
+@font-face{ font-family:'Bornomala'; src:url('https://nazmulhaque-cyber.github.io/aeun-tools/fonts/Bornomala-Bold.ttf') format('truetype'); font-weight:700; font-display:swap; unicode-range:U+0980-09FF,U+200C-200D; }
+body{ font-family:'Bornomala',"Hind Siliguri",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Bengali",Arial,sans-serif !important; }
+.aeun-bar{position:relative;z-index:60;background:#081627;color:#C7D6EA;font-family:'Bornomala',sans-serif;display:flex;align-items:center;justify-content:space-between;padding:8px 14px;font-size:.86rem}
+.aeun-bar a{color:#fff;text-decoration:none;font-weight:700;min-height:32px;display:inline-flex;align-items:center}
+.aeun-bar .aeun-brand{letter-spacing:.22em;font-weight:700;color:#9CC2FF;font-size:.78rem}
+</style>
 </head>
 <body>
+<nav class="aeun-bar"><a href="https://aeun.vercel.app/tools.html">&#8592; AEUN Tools</a><span class="aeun-brand">AEUN</span></nav>
 <div class="topwrap">
   <div class="topbar">
     <div class="trow">
@@ -623,7 +632,7 @@ function applyTheme(){
   document.documentElement.setAttribute('data-theme',theme);
   $('#themeBtn').innerHTML=theme==='dark'?I.sun:I.moon;
   var meta=document.querySelector('meta[name="theme-color"]');
-  if(meta)meta.setAttribute('content',theme==='dark'?'#101214':'#16A34A');
+  if(meta)meta.setAttribute('content',theme==='dark'?'#101214':'#1D6FF2');
 }
 function applyLayout(){
   $('#mainEl').classList.toggle('list',layout==='list');
